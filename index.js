@@ -6,6 +6,7 @@
 // tooltip for those
 // About
 // Last 5 colors
+// Scroll effect
 
 const colors = [
   { name: "aliceblue", hex: "f0f8ff" },
