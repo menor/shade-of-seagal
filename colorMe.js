@@ -1,24 +1,11 @@
-// Add steven seagal movies
+// Button to generate
+// Highlight color name
 // Change app name
 // copy color name to clipboard when clicking on screen
 // copy hex code when clicking on hex code
 // tooltip for those
-
-const getLuminance = (str) => {
-  const r = parseInt(str.slice(0, 1), 16) / 255
-  const g = parseInt(str.slice(2, 4), 16) / 255
-  const b = parseInt(str.slice(4), 16) / 255
-
-  const max = Math.max(r, g, b)
-  const min = Math.min(r, g, b)
-
-  return ((max + min) / 2)
-}
-
-const needsContrastingColor = (str) => {
-  const luminance = getLuminance(str);
-  return luminance >= 0.5
-}
+// About
+// Last 5 colors
 
 const colors = [
   { name: "aliceblue", hex: "f0f8ff" },
@@ -171,6 +158,69 @@ const colors = [
   { name: "yellowgreen", hex: "9acd32" }
 ]
 
+const getFilm = color => {
+  const films = [
+    `${color} the Law`,
+    `${color} to Kill`,
+    `Hard to ${color}`,
+    `Marked for ${color}`,
+    `${color} for Death`,
+    `Out for ${color}`,
+    `${color} for Justice`,
+    `${color} Siege`,
+    `On Deadly ${color}`,
+    `Executive ${color}`,
+    `Fire Down ${color}`,
+    `The ${color} Patriot`,
+    `${color} Wounds`,
+    `${color} Past Dead`,
+    `${color} for a Kill`,
+    `${color} of the Beast`,
+    `${color} You Die`,
+    `Today You ${color}`,
+    `${color} Squad`,
+    `${color} Dawn`,
+    `Mercenary for ${color}`,
+    `Attack ${color}`,
+    `${color} Force`,
+    `${color} of Fury`,
+    `Urban ${color}`,
+    `Pistol ${color}`,
+    `Kill ${color}`,
+    `Against the ${color}`,
+    `Driven to ${color}`,
+    `A Dangerous ${color}`,
+    `${color} Impact`,
+    `Born to Raise ${color}`,
+    `Maximum ${color}`,
+    `Force of ${color}`,
+    `${color} of Execution`,
+    `Gutshot ${color}`,
+    `Code of ${color}`,
+    `${color} of Honor`,
+    `${color}: Special Ops`
+  ]
+
+  return films[Math.floor(Math.random() * films.length)]
+}
+
+
+const getLuminance = (str) => {
+  const r = parseInt(str.slice(0, 1), 16) / 255
+  const g = parseInt(str.slice(2, 4), 16) / 255
+  const b = parseInt(str.slice(4), 16) / 255
+
+  const max = Math.max(r, g, b)
+  const min = Math.min(r, g, b)
+
+  return ((max + min) / 2)
+}
+
+const needsContrastingColor = (str) => {
+  const luminance = getLuminance(str);
+  return luminance >= 0.5
+}
+
 const color = colors[Math.floor(Math.random() * colors.length)]
 
 document.body.style.background = color['name']
@@ -178,7 +228,7 @@ document.body.style.background = color['name']
 const colorName = document.getElementById('colorName')
 const colorHex = document.getElementById('colorHex')
 
-colorName.textContent = color['name']
+colorName.textContent = getFilm(color['name'])
 colorHex.textContent = `#${color['hex']}`
 
 if (needsContrastingColor(color['hex'])) {
