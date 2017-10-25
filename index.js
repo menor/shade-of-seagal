@@ -1,6 +1,5 @@
 // Button to generate
 // Highlight color name
-// Change app name
 // copy color name to clipboard when clicking on screen
 // copy hex code when clicking on hex code
 // tooltip for those
@@ -206,6 +205,10 @@ const getFilm = color => {
 }
 
 
+const button = document.getElementById('button')
+const colorName = document.getElementById('colorName')
+const colorHex = document.getElementById('colorHex')
+
 const getLuminance = (str) => {
   const r = parseInt(str.slice(0, 1), 16) / 255
   const g = parseInt(str.slice(2, 4), 16) / 255
@@ -222,17 +225,38 @@ const needsContrastingColor = (str) => {
   return luminance >= 0.5
 }
 
-const color = colors[Math.floor(Math.random() * colors.length)]
+const refreshColor = () => {
+  const color = colors[Math.floor(Math.random() * colors.length)]
+  document.body.style.background = color['name']
+  colorName.textContent = getFilm(color['name'])
+  colorHex.textContent = `#${color['hex']}`
 
-document.body.style.background = color['name']
-
-const colorName = document.getElementById('colorName')
-const colorHex = document.getElementById('colorHex')
-
-colorName.textContent = getFilm(color['name'])
-colorHex.textContent = `#${color['hex']}`
-
-if (needsContrastingColor(color['hex'])) {
-  colorName.style.color = '#333'
-  colorHex.style.color = '#333'
+  if (needsContrastingColor(color['hex'])) {
+    colorName.style.color = '#333'
+    colorHex.style.color = '#333'
+    button.style.color = '#333'
+    button.style.borderColor = '#333'
+  } else {
+    colorName.style.color = '#FFF'
+    colorHex.style.color = '#FFF'
+    button.style.color = '#FFF'
+    button.style.borderColor = '#FFF'
+  }
 }
+
+let clicked = 0
+
+const handleClick = () => {
+  // clicked += 1
+  // if (clicked === 3) {
+  //   const tip = '<div style="padding-top:1em;">You can also press R to reload</div>'
+  //
+  //   document.getElementById('container').innerHTML += tip
+  // }
+  refreshColor()
+}
+
+button.addEventListener('click', handleClick)
+document.onkeypress = (e) => { e.keyCode === 114 && refreshColor() }
+
+refreshColor()
