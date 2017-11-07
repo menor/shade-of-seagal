@@ -6,6 +6,13 @@
 // About
 // Last 5 colors
 // Scroll effect
+const ready = (fn) => {
+  if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+    fn()
+  } else {
+    document.addEventListener('DOMContentLoaded', fn)
+  }
+}
 
 const colors = [
   { name: "aliceblue", hex: "f0f8ff" },
@@ -247,16 +254,36 @@ const refreshColor = () => {
 let clicked = 0
 
 const handleClick = () => {
-  // clicked += 1
-  // if (clicked === 3) {
-  //   const tip = '<div style="padding-top:1em;">You can also press R to reload</div>'
-  //
-  //   document.getElementById('container').innerHTML += tip
-  // }
+  console.log('click')
+  clicked += 1
+  console.log('clicked', clicked)
+  refreshColor()
+  if (clicked === 3) { showTip() }
+}
+
+const showTip = () => {
+  const tip = 'You can also press R to reload'
+  updateTip(tip)
+}
+
+const clearElement = (el) => {
+  el.innerHTML = ''
+}
+
+const handleKeyPress = (e) => {
+  e.keyCode === 114 && refreshColor()
+  const tip = document.getElementById('tip')
+  tip && clearElement(tip)
+}
+
+const updateTip = content => {
+  document.getElementById('tip').innerHTML = content
+}
+
+const main = () => {
+  button.addEventListener('click', handleClick)
+  document.onkeypress = handleKeyPress
   refreshColor()
 }
 
-button.addEventListener('click', handleClick)
-document.onkeypress = (e) => { e.keyCode === 114 && refreshColor() }
-
-refreshColor()
+ready(main)
