@@ -10,6 +10,11 @@
         --text-color: 255, 255, 255;
       }
 
+      ::selection {
+        background: rgba(var(--text-color),0.5);
+        color: var(--text-color);
+      }
+
       body {
         font-family: sans-serif;
         margin: 0;
@@ -28,7 +33,7 @@
             font-size: 4em;
           }
         }
-  
+
       .colorName {
         color: rgba(var(--text-color),1);
         /* https://stackoverflow.com/a/45463603 */

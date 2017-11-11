@@ -1,7 +1,3 @@
-// TODO:
-// About
-// Scroll effect (sangre goteando?)
-
 (function() {
 
   const ready = (fn) => {
@@ -11,6 +7,11 @@
       document.addEventListener('DOMContentLoaded', fn)
     }
   }
+
+  const button = document.getElementById('button')
+  const colorName = document.getElementById('colorName')
+  const colorHex = document.getElementById('colorHex')
+  const tip = document.getElementById('tip')
 
   const colors = [
     { name: "aliceblue", hex: "f0f8ff" },
@@ -211,12 +212,6 @@
     return films[Math.floor(Math.random() * films.length)]
   }
 
-
-  const button = document.getElementById('button')
-  const colorName = document.getElementById('colorName')
-  const colorHex = document.getElementById('colorHex')
-  const tip = document.getElementById('tip')
-
   const getLuminance = (str) => {
     const r = parseInt(str.slice(0, 1), 16) / 255
     const g = parseInt(str.slice(2, 4), 16) / 255
@@ -233,9 +228,18 @@
     return luminance >= 0.5
   }
 
+  const setBackgroundColor = (color) => {
+    document.body.style.background = color
+  }
+
+  const getRandomColor = () => {
+    return colors[Math.floor(Math.random() * colors.length)]
+  }
+
   const refreshColor = () => {
-    const color = colors[Math.floor(Math.random() * colors.length)]
-    document.body.style.background = color['name']
+    const color = getRandomColor()
+    setBackgroundColor(color['name'])
+
     colorName.innerHTML = getFilm(color['name'])
     colorHex.textContent = `#${color['hex']}`
 
@@ -267,7 +271,6 @@
     e.keyCode === 114 && refreshColor()
     tip && clearElement(tip)
   }
-
 
   const main = () => {
     button.addEventListener('click', handleButtonClick)
