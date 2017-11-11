@@ -1,11 +1,15 @@
-// Button to generate
-// Highlight color name
-// copy color name to clipboard when clicking on screen
-// copy hex code when clicking on hex code
-// tooltip for those
+// TODO:
+
 // About
-// Last 5 colors
-// Scroll effect
+// Scroll effect (sangre goteando?)
+
+const ready = (fn) => {
+  if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+    fn()
+  } else {
+    document.addEventListener('DOMContentLoaded', fn)
+  }
+}
 
 const colors = [
   { name: "aliceblue", hex: "f0f8ff" },
@@ -159,46 +163,48 @@ const colors = [
 ]
 
 const getFilm = color => {
+  const colorElement = `<span class='colorName'>${color}</span>`
+
   const films = [
-    `${color} the Law`,
-    `${color} to Kill`,
-    `Hard to ${color}`,
-    `Marked for ${color}`,
-    `${color} for Death`,
-    `Out for ${color}`,
-    `${color} for Justice`,
-    `${color} Siege`,
-    `On Deadly ${color}`,
-    `Executive ${color}`,
-    `Fire Down ${color}`,
-    `The ${color} Patriot`,
-    `${color} Wounds`,
-    `${color} Past Dead`,
-    `${color} for a Kill`,
-    `${color} of the Beast`,
-    `${color} You Die`,
-    `Today You ${color}`,
-    `${color} Squad`,
-    `${color} Dawn`,
-    `Mercenary for ${color}`,
-    `Attack ${color}`,
-    `${color} Force`,
-    `${color} of Fury`,
-    `Urban ${color}`,
-    `Pistol ${color}`,
-    `Kill ${color}`,
-    `Against the ${color}`,
-    `Driven to ${color}`,
-    `A Dangerous ${color}`,
-    `${color} Impact`,
-    `Born to Raise ${color}`,
-    `Maximum ${color}`,
-    `Force of ${color}`,
-    `${color} of Execution`,
-    `Gutshot ${color}`,
-    `Code of ${color}`,
-    `${color} of Honor`,
-    `${color}: Special Ops`
+    `${colorElement} the Law`,
+    `${colorElement} to Kill`,
+    `Hard to ${colorElement}`,
+    `Marked for ${colorElement}`,
+    `${colorElement} for Death`,
+    `Out for ${colorElement}`,
+    `${colorElement} for Justice`,
+    `${colorElement} Siege`,
+    `On Deadly ${colorElement}`,
+    `Executive ${colorElement}`,
+    `Fire Down ${colorElement}`,
+    `The ${colorElement} Patriot`,
+    `${colorElement} Wounds`,
+    `${colorElement} Past Dead`,
+    `${colorElement} for a Kill`,
+    `${colorElement} of the Beast`,
+    `${colorElement} You Die`,
+    `Today You ${colorElement}`,
+    `${colorElement} Squad`,
+    `${colorElement} Dawn`,
+    `Mercenary for ${colorElement}`,
+    `Attack ${colorElement}`,
+    `${colorElement} Force`,
+    `${colorElement} of Fury`,
+    `Urban ${colorElement}`,
+    `Pistol ${colorElement}`,
+    `Kill ${colorElement}`,
+    `Against the ${colorElement}`,
+    `Driven to ${colorElement}`,
+    `A Dangerous ${colorElement}`,
+    `${colorElement} Impact`,
+    `Born to Raise ${colorElement}`,
+    `Maximum ${colorElement}`,
+    `Force of ${colorElement}`,
+    `${colorElement} of Execution`,
+    `Gutshot ${colorElement}`,
+    `Code of ${colorElement}`,
+    `${colorElement} of Honor`,
+    `${colorElement}: Special Ops`
   ]
 
   return films[Math.floor(Math.random() * films.length)]
@@ -208,6 +214,7 @@ const getFilm = color => {
 const button = document.getElementById('button')
 const colorName = document.getElementById('colorName')
 const colorHex = document.getElementById('colorHex')
+const tip = document.getElementById('tip')
 
 const getLuminance = (str) => {
   const r = parseInt(str.slice(0, 1), 16) / 255
@@ -228,35 +235,43 @@ const needsContrastingColor = (str) => {
 const refreshColor = () => {
   const color = colors[Math.floor(Math.random() * colors.length)]
   document.body.style.background = color['name']
-  colorName.textContent = getFilm(color['name'])
+  colorName.innerHTML = getFilm(color['name'])
   colorHex.textContent = `#${color['hex']}`
 
   if (needsContrastingColor(color['hex'])) {
-    colorName.style.color = '#333'
-    colorHex.style.color = '#333'
-    button.style.color = '#333'
-    button.style.borderColor = '#333'
+    document.body.style.setProperty('--text-color', '25,25,25')
   } else {
-    colorName.style.color = '#FFF'
-    colorHex.style.color = '#FFF'
-    button.style.color = '#FFF'
-    button.style.borderColor = '#FFF'
+    document.body.style.setProperty('--text-color', '255,255,255')
   }
 }
 
 let clicked = 0
 
-const handleClick = () => {
-  // clicked += 1
-  // if (clicked === 3) {
-  //   const tip = '<div style="padding-top:1em;">You can also press R to reload</div>'
-  //
-  //   document.getElementById('container').innerHTML += tip
-  // }
+const handleButtonClick = (e) => {
+  e.stopPropagation()
+  clicked += 1
+  refreshColor()
+  if (clicked === 3) { showTip() }
+}
+
+const showTip = () => {
+  tip.classList.toggle('hidden')
+}
+
+const clearElement = (el) => {
+  el.innerHTML = ''
+}
+
+const handleKeyPress = (e) => {
+  e.keyCode === 114 && refreshColor()
+  tip && clearElement(tip)
+}
+
+
+const main = () => {
+  button.addEventListener('click', handleButtonClick)
+  document.onkeypress = handleKeyPress
   refreshColor()
 }
 
-button.addEventListener('click', handleClick)
-document.onkeypress = (e) => { e.keyCode === 114 && refreshColor() }
-
-refreshColor()
+ready(main)
