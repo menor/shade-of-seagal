@@ -1,9 +1,6 @@
 // TODO:
-// copy color name to clipboard when clicking on screen
-// copy hex code when clicking on hex code
-// tooltip for those
+
 // About
-// Last 5 colors
 // Scroll effect (sangre goteando?)
 
 const ready = (fn) => {
@@ -250,7 +247,8 @@ const refreshColor = () => {
 
 let clicked = 0
 
-const handleClick = () => {
+const handleButtonClick = (e) => {
+  e.stopPropagation()
   clicked += 1
   refreshColor()
   if (clicked === 3) { showTip() }
@@ -271,7 +269,7 @@ const handleKeyPress = (e) => {
 
 
 const main = () => {
-  button.addEventListener('click', handleClick)
+  button.addEventListener('click', handleButtonClick)
   document.onkeypress = handleKeyPress
   refreshColor()
 }
