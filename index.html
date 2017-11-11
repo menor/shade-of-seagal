@@ -10,40 +10,42 @@
         --text-color: 255, 255, 255;
       }
 
+      ::selection {
+        background: rgba(var(--text-color),0.5);
+        color: var(--text-color);
+      }
+
       body {
-        margin: 0;
         font-family: sans-serif;
-      }
-
-      #colorName,
-      #colorHex  {
-        color: rgba(var(--text-color),0.5);
-        display: block;
-      }
-
-      #colorHex  {
-        color: rgb(var(--text-color));
+        margin: 0;
       }
 
       #colorName {
+        color: rgba(var(--text-color),0.5);
         font-size: 1.8em;
         margin-bottom: 0;
         margin-top: 3em;
         text-transform: capitalize;
       }
 
+        @media (min-width: 30em) {
+          #colorName {
+            font-size: 4em;
+          }
+        }
+
+      .colorName {
+        color: rgba(var(--text-color),1);
+        /* https://stackoverflow.com/a/45463603 */
+      }
+
       #colorHex {
+        color: rgb(var(--text-color));
         font-family: monospace;
         font-weight: 400;
         font-size: 1.4em;
         margin-top: 0.8em;
         text-transform: uppercase;
-      }
-
-      @media (min-width: 30em) {
-        #colorName {
-          font-size: 4em;
-        }
       }
 
       #container {
@@ -53,20 +55,20 @@
       }
 
       #button{
-        border: 1px solid rgb(var(--text-color));
-        color: rgb(var(--text-color));
-        padding: 1em;
-        max-width: 8em;
-        margin-top: 3em;
-        margin-left: auto;
-        margin-right: auto;
+        border: 1px solid rgba(var(--text-color),0.5);
+        color: rgba(var(--text-color),0.8);
         cursor: pointer;
+        margin-left: auto;
+        margin-top: 3em;
+        margin-right: auto;
+        max-width: 8em;
+        padding: 1em;
         transition: all 0.2s ease-out;
       }
 
       #button:hover {
-        transform: translateY(-0.5em);
         box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.2);
+        transform: translateY(-0.5em);
       }
 
       #tip {
@@ -79,11 +81,6 @@
       #tip.hidden {
         opacity: 0;
         padding-top: 2em;
-      }
-
-      .colorName {
-        color: rgba(var(--text-color),1);
-        /* https://stackoverflow.com/a/45463603 */
       }
 
     </style>
